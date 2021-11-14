@@ -5,10 +5,10 @@
 #define WIFI_SSID "INFINITUM4NRX_2.4"
 #define WIFI_PASSWORD "ps9R6Jfwhd"
 
+//se definen los pines
 #define sensor A0
 #define LED1 14 
 #define LED2 12 
-#define buzzer 15
 
 FirebaseData firebaseData; //variable firebaseData
 FirebaseData ledData;   //variable ledData
@@ -17,6 +17,7 @@ FirebaseJson json;          //variablejson
 float temp;
 void setup()
 {
+  //pines del sensor y led para nodemcu
   pinMode(sensor, INPUT);
   pinMode(LED1, OUTPUT);
   pinMode(LED2, OUTPUT);
@@ -46,8 +47,8 @@ void setup()
 
 void loop()
 {
-  temp = analogRead(sensor);
-  temp =((temp*5)/1024);
+  temp = analogRead(sensor); //lee los datos del sensor de temperatura
+  temp =((temp*5)/1024);  //formula
   temp = (temp-0.5)*100;
   Serial.print("Temperature = ");
   Serial.println(temp);
@@ -56,7 +57,6 @@ void loop()
     Firebase.setFloat(firebaseData,"/SensorTemperatura",temp); //envia el valor numero que se tiene
     digitalWrite(LED1, HIGH);
     digitalWrite(LED2, LOW);
-    noTone(buzzer);
     delay(1000);
   }
   if (temp >= 36.5 && temp <= 37.5) 
@@ -64,7 +64,6 @@ void loop()
     Firebase.setFloat(firebaseData,"/SensorTemperatura",temp); //envia el valor numero que se tiene
     digitalWrite(LED1, LOW);
     digitalWrite(LED2, HIGH);
-    noTone(buzzer);
     delay(1000);
   }
 }
