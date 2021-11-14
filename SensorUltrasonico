@@ -4,13 +4,15 @@
 #define FIREBASE_AUTH "wKbfXZsAVJNvycevWl5pFgITFLH65uSRxVSof6xi"
 #define WIFI_SSID "Totalplay-1BA4"
 #define WIFI_PASSWORD "1BA483C923aj3Uxy"
+//libreria arduino
 #include <Servo.h>
-Servo servo;
+Servo servo; //se crea un servo
 
 FirebaseData firebaseData; //variable firebaseData
 FirebaseData ledData;   //variable ledData
 FirebaseJson json;          //variablejson
 
+//pines para sensor
 const int trigPin = 13;
 const int echoPin = 12;
 
@@ -18,13 +20,14 @@ const int echoPin = 12;
 #define SOUND_VELOCITY 0.034
 #define CM_TO_INCH 0.393701
 
+//variables de distancia
 long duration;
 float distanceCm;
 float distanceInch;
 
 void setup() {
-  servo.attach(16);  
-  servo.write(0);
+  servo.attach(16);  //pin servo
+  servo.write(0);  //se establece en 0° grados el servo
   Serial.begin(9600); // Starts the serial communication
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
