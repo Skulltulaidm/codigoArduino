@@ -57,14 +57,14 @@ void loop(){
   
   val = digitalRead(sensorPin); //Lee el valor de la variable (val)
   if (val == HIGH){
-    Firebase.setFloat(firebaseData,"/SensorDeMovimiento",val); //envia el valor numero que se tiene de lecturaSensorA0
+    Firebase.setFloat(firebaseData,"/SensorDeMovimiento",val); //envia el valor numero que se tiene
     Serial.println("Dispensador activado"); //imprime el valor de lectura
     digitalWrite(ledPin, HIGH);
     servoMotor.write(180);
 
 
   }else{
-    Firebase.setFloat(firebaseData,"/SensorDeMovimiento",val); //envia el valor numero que se tiene de lecturaSensorA0
+    Firebase.setFloat(firebaseData,"/SensorDeMovimiento",val); //envia el valor numero que se tiene
     Serial.println("Dispensador apagado"); //imprime el valor de lectura
     digitalWrite(ledPin, LOW);
     servoMotor.write(0);
