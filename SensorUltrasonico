@@ -71,13 +71,13 @@ void loop() {
   
   // Prints the distance on the Serial Monitor
   if(distanceCm>30){
-    Firebase.setFloat(firebaseData,"/SensorUltrasonico",distanceCm); //envia el valor numero que se tiene de lecturaSensorA0
+    Firebase.setFloat(firebaseData,"/SensorUltrasonico",distanceCm); //envia el valor numero que se tiene
     Serial.println(distanceCm); //imprime el valor de lectura
     Serial.print("Abrir Puerta");
     servo.write(180);
     delay(100);
   }else{
-    Firebase.setFloat(firebaseData,"/SensorUltrasonico",distanceCm); //envia el valor numero que se tiene de lecturaSensorA0
+    Firebase.setFloat(firebaseData,"/SensorUltrasonico",distanceCm); //envia el valor numero que se tiene 
     Serial.println(distanceCm); //imprime el valor de lectura
     Serial.print("Cerrar Puerta");
     servo.write(0);
