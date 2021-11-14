@@ -1,0 +1,70 @@
+#include "FirebaseESP8266.h" 
+#include <ESP8266WiFi.h>
+#define FIREBASE_HOST "tc1004-81ee9-default-rtdb.firebaseio.com" 
+#define FIREBASE_AUTH "wKbfXZsAVJNvycevWl5pFgITFLH65uSRxVSof6xi"
+#define WIFI_SSID "INFINITUM4NRX_2.4"
+#define WIFI_PASSWORD "ps9R6Jfwhd"
+
+#define sensor A0
+#define LED1 14 
+#define LED2 12 
+#define buzzer 15
+
+FirebaseData firebaseData; //variable firebaseData
+FirebaseData ledData;   //variable ledData
+FirebaseJson json;          //variablejson
+
+float temp;
+void setup()
+{
+  pinMode(sensor, INPUT);
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  Serial.begin(9600);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD); //inicializa la conexion wifi, configura la bilbioteca wifi
+  Serial.print("Connecting to Wi-Fi -->"); //impresion de pantalla 
+  Serial.print(WIFI_SSID); Serial.println(" ..."); //impresion de pantalla del WIFI_SSID proporcionado y "..."
+
+  int teller = 0; //variable teller que funcionara como contador
+  while (WiFi.status() != WL_CONNECTED) //un while  del estado de conexion sea diferente cuando ya se conecta
+  {
+      delay(1000); //tiempo de espera de 1000 ms
+      Serial.print(++teller); Serial.print(' '); //impresion de pantalla del contador y un espacio (sirve como tiempo de espera de conexion)
+  }
+
+  Serial.println('\n'); //impresion con salto de linea
+  Serial.println("WiFi conectado!");  //imprime que la wifi se conecto
+  Serial.print("IP address:\t");     //imprime lo que contiene y hace un tab
+  Serial.println(WiFi.localIP());    //imprime la IP 
+
+  //inicializa la conexion con la base de datos con las credenciales proporcionadas
+  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH); 
+  Firebase.reconnectWiFi(true); //
+  delay(10);
+}
+
+void loop()
+{
+  temp = analogRead(sensor);
+  temp =((temp*5)/1024);
+  temp = (temp-0.5)*100;
+  Serial.print("Temperature = ");
+  Serial.println(temp);
+  if (temp > 37.8) 
+  {
+    Firebase.setFloat(firebaseData,"/SensorTemperatura",temp); //envia el valor numero que se tiene
+    digitalWrite(LED1, HIGH);
+    digitalWrite(LED2, LOW);
+    noTone(buzzer);
+    delay(1000);
+  }
+  if (temp >= 36.5 && temp <= 37.5) 
+  {
+    Firebase.setFloat(firebaseData,"/SensorTemperatura",temp); //envia el valor numero que se tiene
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
+    noTone(buzzer);
+    delay(1000);
+  }
+}
