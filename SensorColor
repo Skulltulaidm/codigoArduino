@@ -10,14 +10,15 @@ FirebaseData firebaseData; //variable firebaseData
 FirebaseData ledData;   //variable ledData
 FirebaseJson json;          //variablejson
 
+//pines sensor
 const int s0 = 5;
 const int s1 = 4;
 const int s2 = 0;
 const int s3 = 2;
 const int out = 14;
+//variables para color rojo y verde
 byte countRed = 0;
 byte countGreen = 0;
-byte countBlue = 0;
 void setup() {
     // Configurar pines
    pinMode( RELE_PIN, OUTPUT );
@@ -53,7 +54,8 @@ void setup() {
    delay(10);
 }
 void loop() {
-   getColor();
+   getColor(); //llama a la funcion getcolor()
+   //impresion de pantalla
    Serial.print("Red: ");
    Serial.print(countRed, DEC);
    Serial.print("Green: ");
@@ -62,13 +64,13 @@ void loop() {
    Serial.print(countBlue, DEC);
    if (countRed < countBlue && countGreen > 100 && countRed < 80)
    {
-      Firebase.setFloat(firebaseData,"/SensorColor",countRed); //envia el valor numero que se tiene de lecturaSensorA0
+      Firebase.setFloat(firebaseData,"/SensorColor",countRed); //envia el valor numero que se tiene
       digitalWrite(RELE_PIN, LOW);
       Serial.println(" - Red");
    }
    else if (countGreen < countRed && countGreen < countBlue)
    {
-      Firebase.setFloat(firebaseData,"/SensorColor",countGreen); //envia el valor numero que se tiene de lecturaSensorA0
+      Firebase.setFloat(firebaseData,"/SensorColor",countGreen); //envia el valor numero que se tiene
       Serial.println(" - Green");
       digitalWrite(RELE_PIN, HIGH);
    }
